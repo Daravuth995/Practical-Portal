@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Language Practice Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* Base Styles */
+    :root {
+      --primary: #3498db;
+      --secondary: #9b59b6;
+      --text: #ecf0f1;
+      --background: linear-gradient(135deg, #1f1c2c, #928dab);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--background);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .login-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .login-container h2 {
+      color: #333;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .login-container button:hover {
+      background: #2980b9;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      margin-top: 1rem;
+      display: none;
+      text-align: center;
+    }
+
+    .main-content {
+      display: none;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 2.5rem;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    h1 i {
+      margin-right: 15px;
+      color: var(--primary);
+    }
+
+    .section-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      animation: pulseGlow 8s infinite;
+    }
+
+    .section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .section h2 i {
+      margin-right: 12px;
+      font-size: 1.3rem;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: rgba(0, 0, 0, 0.2);
+      color: var(--text);
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    select:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+    }
+
+    select:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.3);
+    }
+
+    footer {
+      text-align: center;
+      padding-top: 3rem;
+      margin-top: 3rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .social-links {
+      margin-top: 1.5rem;
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      margin: 0 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text) !important;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-links a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, #ff9a9e, #fad0c4, #fad0c4, #fbc2eb);
+      transition: left 0.4s ease;
+      z-index: 0;
+    }
+
+    .social-links a:hover::before {
+      left: 0;
+    }
+
+    .social-links a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .social-links a i {
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
+      50% { box-shadow: 0 0 20px var(--primary), 0 0 30px rgba(155, 89, 182, 0.3); }
+      100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
+    }
+
+    @media (max-width: 768px) {
+      .section-container {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+
+    @media (prefers-reduced-motion) {
+      .section, .section h2 i, .social-links a, select {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-container">
+      <h2><i class="fas fa-lock"></i> Student Login</h2>
+      <input type="text" id="studentId" placeholder="Student ID" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button id="loginButton">Login</button>
+      <div class="error-message" id="errorMessage">Invalid Student ID or Password</div>
+    </div>
+  </div>
+
+  <div class="main-content" id="mainContent">
+    <div class="container">
+      <h1><i class="fas fa-language"></i> Language Practice Portal</h1>
+      <div class="section-container">
+        <div class="section">
+          <h2><i class="fas fa-book-open"></i> Storytelling</h2>
+          <select id="storySelect">
+            <option value="">-- Select a story --</option>
+            <option data-url="https://daravuth995.github.io/The-Baby-Elephant-/">1. The Baby Elephant</option>
+            <option data-url="https://example.com/lion-mouse">2. The Lion and the Mouse</option>
+            <option data-url="https://example.com/three-fish">3. The Three Fish</option>
+          </select>
+        </div>
+
+        <div class="section">
+          <h2><i class="fas fa-comments"></i> Conversation Practice</h2>
+          <select id="conversationSelect">
+            <option value="">-- Select a conversation --</option>
+            <option data-url="https://example.com/morning-greetings">1. Morning Greetings</option>
+            <option data-url="https://example.com/market">2. At the Market</option>
+            <option data-url="https://example.com/doctor-office">3. At the Doctor's Office</option>
+          </select>
+        </div>
+
+        <div class="section">
+          <h2><i class="fas fa-pencil-alt"></i> Exercises</h2>
+          <select id="exerciseSelect">
+            <option value="">-- Select an exercise --</option>
+            <option data-url="https://example.com/verb-conjugation">1. Verb Conjugation</option>
+            <option data-url="https://example.com/vocab-matching">2. Vocabulary Matching</option>
+            <option data-url="https://example.com/grammar-reference">3. Grammar Reference</option>
+          </select>
+        </div>
+      </div>
+
+      <footer>
+        <p>© 2025 Daravuth Yon Lecture. All rights reserved.</p>
+        <p class="social-links">
+          <a href="#" aria-label="Visit our GitHub page"><i class="fab fa-github"></i></a>
+          <a href="#" aria-label="Visit our Twitter page"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Visit our LinkedIn page"><i class="fab fa-linkedin"></i></a>
+        </p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("loginButton").addEventListener("click", function () {
+      const studentId = document.getElementById("studentId").value;
+      const password = document.getElementById("password").value;
+
+      const validCredentials = {
+  "stu001": "yJq39P!n",
+  "stu002": "bNj2Qw7!",
+  "stu003": "vKz41Cp@",
+  "stu004": "tVt61GxP!",
+  "stu005": "lSx88Jh#",
+  "stu006": "qFb49VvB!",
+  "stu007": "hPb52TzM@",
+  "stu008": "rCk34Nw#",
+  "stu009": "mJs55LzF!",
+  "stu010": "kWp61DsT@",
+  "stu011": "jRq30GxM!",
+  "stu012": "iSc32AwP@",
+  "stu013": "tUe89VbZ!",
+  "stu014": "gXy72LwA@",
+  "stu015": "eNf50QcJ!",
+  "stu016": "pKr29UvB@",
+  "stu017": "fCp63WhM!",
+  "stu018": "aBx34TzR@",
+  "stu019": "wPo71VrD!",
+  "stu020": "sQa93KhB@",
+  "stu021": "pGd25VtK!",
+  "stu022": "yUq12BwP@",
+  "stu023": "jWx76SgL!",
+  "stu024": "rZc57VjX@",
+  "stu025": "gZp81UtM!",
+  "stu026": "cYv65KrS@",
+  "stu027": "oTx37TjG!",
+  "stu028": "vLm93FgB@",
+  "stu029": "pKq12MsT!",
+  "stu030": "wNz76FpJ@",
+  "stu031": "xYs43DzL!"
+};
+
+      if (validCredentials[studentId] === password) {
+        document.getElementById("loginOverlay").style.display = "none";
+        document.getElementById("mainContent").style.display = "block";
+      } else {
+        document.getElementById("errorMessage").style.display = "block";
+      }
+    });
+
+    ["storySelect", "conversationSelect", "exerciseSelect"].forEach(id => {
+      document.getElementById(id).addEventListener("change", function () {
+        const url = this.selectedOptions[0].getAttribute("data-url");
+        if (url) {
+          window.location.href = url;
+          this.selectedIndex = 0; // Reset selection after navigation
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduSphere | Academic Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #f72585;
+            --success-color: #4cc9f0;
+            --warning-color: #f8961e;
+            --danger-color: #ef233c;
+            --text-color: #2b2d42;
+            --light-text: #f8f9fa;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e6f0ff 100%);
+            min-height: 100vh;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            padding: 20px;
+            margin: 0 auto;
+        }
+
+        /* Floating background elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(67, 97, 238, 0.1);
+            filter: blur(60px);
+            animation: float 15s infinite linear;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 20%;
+            left: 10%;
+            animation-duration: 20s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: 15%;
+            right: 10%;
+            animation-duration: 25s;
+            animation-delay: 5s;
+            background: rgba(248, 37, 133, 0.1);
+        }
+
+        .floating-element:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            right: 20%;
+            animation-duration: 15s;
+            animation-delay: 2s;
+            background: rgba(76, 201, 240, 0.1);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(50px, 50px) rotate(180deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+
+        /* Login Form */
+        .login-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            padding: 50px;
+            width: 100%;
+            max-width: 500px;
+            margin: 50px auto;
+            transform-style: preserve-3d;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                rgba(67, 97, 238, 0.1) 0%, 
+                rgba(76, 201, 240, 0.1) 50%, 
+                rgba(248, 37, 133, 0.1) 100%);
+            transform: rotate(45deg);
+            z-index: -1;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { transform: rotate(45deg) translateX(0); }
+            50% { transform: rotate(45deg) translateX(20%); }
+            100% { transform: rotate(45deg) translateX(0); }
+        }
+
+        .login-container h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .login-container h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        .form-group .input-container {
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: none;
+            border-radius: 12px;
+            background: var(--card-bg);
+            font-size: 16px;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .form-group .input-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn:hover::after {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: var(--danger-color);
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0;
+            height: 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .error-message.show {
+            opacity: 1;
+            height: auto;
+            padding: 10px;
+            background: rgba(239, 35, 60, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            width: 100%;
+            position: relative;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .dashboard-blur {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 10;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 20px;
+            background: rgba(239, 35, 60, 0.1);
+        }
+
+        .dashboard-blur.show {
+            display: flex;
+        }
+
+        .restriction-message {
+            background: rgba(239, 35, 60, 0.9);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 80%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        /* Header Section */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* User Profile Card */
+        .user-profile {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+            min-width: 300px;
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+        }
+
+        .user-profile:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            font-weight: 600;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-avatar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0) 60%
+            );
+            transform: rotate(30deg);
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .user-details h2 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 1.5rem;
+        }
+
+        .user-details p {
+            color: var(--text-color);
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            flex: 1;
+            min-width: 200px;
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+        }
+
+        .stat-card h3 {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-card .stat-progress {
+            height: 6px;
+            background: rgba(67, 97, 238, 0.1);
+            border-radius: 3px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .stat-card .stat-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+
+        /* Streak Ring */
+        .streak-ring {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            margin: 0 auto 15px;
+        }
+
+        .streak-ring circle {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .streak-ring-bg {
+            stroke: rgba(67, 97, 238, 0.1);
+        }
+
+        .streak-ring-progress {
+            stroke: url(#streakGradient);
+            stroke-dasharray: 226;
+            stroke-dashoffset: 226;
+            animation: streakFill 1.5s ease forwards;
+        }
+
+        @keyframes streakFill {
+            to { stroke-dashoffset: calc(226 - (226 * var(--streak-percent)) / 100); }
+        }
+
+        .streak-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* Daily Challenge Banner */
+        .daily-challenge {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: white;
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .daily-challenge::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0) 60%
+            );
+            transform: rotate(30deg);
+        }
+
+        .daily-challenge h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .daily-challenge p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .daily-challenge .challenge-btn {
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .daily-challenge .challenge-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Content Sections */
+        .content-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .section {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            padding: 10px 0;
+        }
+
+        .section-header h3 {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-header .section-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(67, 97, 238, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+
+        .section-header .toggle-icon {
+            font-size: 18px;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .section-header.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .section-content.show {
+            max-height: 1000px;
+        }
+
+        .content-item {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: var(--transition);
+        }
+
+        .content-item:last-child {
+            border-bottom: none;
+        }
+
+        .content-item .item-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(67, 97, 238, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .content-item a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: var(--transition);
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .content-item:hover {
+            transform: translateX(5px);
+        }
+
+        .content-item:hover .item-icon {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .content-item:hover a {
+            color: var(--primary-color);
+        }
+
+        .content-item .item-badge {
+            background: var(--accent-color);
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        /* Subtitle styling */
+        .subtitle {
+            font-weight: 600;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            color: var(--secondary-color);
+            font-size: 0.95rem;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Welcome Popup */
+        .welcome-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px 50px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+            text-align: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 1px solid var(--glass-border);
+            max-width: 90%;
+            width: 500px;
+        }
+
+        .welcome-popup.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .welcome-popup .welcome-icon {
+            font-size: 60px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        .welcome-popup h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+
+        .welcome-popup p {
+            color: var(--text-color);
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+
+        .welcome-popup .close-btn {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .welcome-popup .close-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        /* Mascot */
+        .mascot {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 50;
+            overflow: hidden;
+        }
+
+        .mascot:hover {
+            transform: scale(1.1) translateY(-10px);
+        }
+
+        .mascot img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .mascot-tooltip {
+            position: absolute;
+            bottom: 110%;
+            right: 0;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-size: 0.9rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            width: 200px;
+            text-align: center;
+        }
+
+        .mascot:hover .mascot-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-5px);
+        }
+
+        /* Motivational Messages */
+        .motivational-message {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 50;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .motivational-message.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .motivational-message p {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .motivational-message .close-message {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            opacity: 0.5;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 4px solid rgba(67, 97, 238, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-color);
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .content-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-section {
+                flex-direction: column;
+            }
+            
+            .user-profile {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 30px;
+                margin: 20px auto;
+            }
+            
+            .stats-container {
+                flex-direction: column;
+            }
+            
+            .stat-card {
+                width: 100%;
+            }
+            
+            .welcome-popup {
+                width: 90%;
+                padding: 30px;
+            }
+            
+            .mascot {
+                width: 70px;
+                height: 70px;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .motivational-message {
+                bottom: 20px;
+                left: 20px;
+                max-width: calc(100% - 40px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 25px 20px;
+                border-radius: 16px;
+            }
+            
+            .login-container h1 {
+                font-size: 2rem;
+            }
+            
+            .form-group input {
+                padding: 12px 15px 12px 40px;
+            }
+            
+            .form-group .input-icon {
+                left: 15px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .welcome-popup h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating background elements -->
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <div class="container">
+        <!-- Login Form -->
+        <div class="login-container fade-in" id="loginContainer">
+            <h1>EduSphere</h1>
+            <div class="form-group">
+                <label for="studentId">Student ID</label>
+                <div class="input-container">
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" id="studentId" placeholder="Enter your Student ID">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-container">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="password" placeholder="Enter your password">
+                </div>
+            </div>
+            <button class="btn" id="loginBtn">Login</button>
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard" id="dashboard">
+            <div class="dashboard-blur" id="dashboardBlur">
+                <div class="restriction-message" id="restrictionMessage"></div>
+            </div>
+            
+            <!-- Header Section -->
+            <div class="header-section">
+                <!-- User Profile Card -->
+                <div class="user-profile">
+                    <div class="user-avatar" id="userAvatar">JD</div>
+                    <div class="user-details">
+                        <h2 id="userName">John Doe</h2>
+                        <p id="userId">ID: 123456</p>
+                        <div class="streak-container">
+                            <div class="streak-ring">
+                                <svg width="80" height="80" viewBox="0 0 80 80">
+                                    <defs>
+                                        <linearGradient id="streakGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="var(--primary-color)" />
+                                            <stop offset="100%" stop-color="var(--accent-color)" />
+                                        </linearGradient>
+                                    </defs>
+                                    <circle cx="40" cy="40" r="36" class="streak-ring-bg"></circle>
+                                    <circle cx="40" cy="40" r="36" class="streak-ring-progress"></circle>
+                                </svg>
+                                <div class="streak-value" id="streakValue">7</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Completed Lessons</h3>
+                    <div class="stat-value" id="completedLessons">12</div>
+                    <div class="stat-progress">
+                        <div class="stat-progress-bar" style="width: 60%"></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>Current Streak</h3>
+                    <div class="stat-value" id="currentStreak">7 days</div>
+                    <div class="stat-progress">
+                        <div class="stat-progress-bar" style="width: 35%"></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Points</h3>
+                    <div class="stat-value" id="totalPoints">1,450</div>
+                    <div class="stat-progress">
+                        <div class="stat-progress-bar" style="width: 45%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Daily Challenge Banner -->
+            <div class="daily-challenge">
+                <h3><i class="fas fa-trophy"></i> Daily Challenge</h3>
+                <p>Complete 3 exercises today to earn bonus points and keep your streak alive!</p>
+                <button class="challenge-btn">
+                    <i class="fas fa-arrow-right"></i> Start Challenge
+                </button>
+            </div>
+            
+            <!-- Content Sections -->
+            <div class="content-sections">
+                <div class="section">
+                    <div class="section-header" id="storyHeader">
+                        <div class="section-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3>Story</h3>
+                        <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="section-content" id="storyContent"></div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header" id="conversationHeader">
+                        <div class="section-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Conversation Practice</h3>
+                        <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="section-content" id="conversationContent"></div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header" id="exerciseHeader">
+                        <div class="section-icon">
+                            <i class="fas fa-pencil-alt"></i>
+                        </div>
+                        <h3>Exercise & Test</h3>
+                        <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="section-content" id="exerciseContent"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Welcome Popup -->
+        <div class="welcome-popup" id="welcomePopup">
+            <div class="welcome-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h2>Welcome back, <span id="welcomeName"></span>!</h2>
+            <p>Ready to continue your learning journey? Let's make today productive!</p>
+            <button class="close-btn" id="closeWelcomeBtn">Let's Go <i class="fas fa-arrow-right"></i></button>
+        </div>
+        
+        <!-- Mascot -->
+        <div class="mascot">
+            <img src="https://cdn-icons-png.flaticon.com/512/1864/1864593.png" alt="Study Owl">
+            <div class="mascot-tooltip">
+                Hi there! Need help with anything? Click on me anytime!
+            </div>
+        </div>
+        
+        <!-- Motivational Message -->
+        <div class="motivational-message" id="motivationalMessage">
+            <button class="close-message" id="closeMessageBtn">
+                <i class="fas fa-times"></i>
+            </button>
+            <p><strong>Tip of the Day:</strong></p>
+            <p id="motivationalText">Short study sessions with breaks are more effective than long cramming sessions. Try the Pomodoro technique!</p>
+        </div>
+    </div>
+
+    <script>
+    // DOM Elements
+    const loginContainer = document.getElementById('loginContainer');
+    const dashboard = document.getElementById('dashboard');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const studentIdInput = document.getElementById('studentId');
+    const passwordInput = document.getElementById('password');
+    const errorMessage = document.getElementById('errorMessage');
+    const userName = document.getElementById('userName');
+    const userId = document.getElementById('userId');
+    const userAvatar = document.getElementById('userAvatar');
+    const welcomePopup = document.getElementById('welcomePopup');
+    const welcomeName = document.getElementById('welcomeName');
+    const closeWelcomeBtn = document.getElementById('closeWelcomeBtn');
+    const dashboardBlur = document.getElementById('dashboardBlur');
+    const restrictionMessage = document.getElementById('restrictionMessage');
+    const streakValue = document.getElementById('streakValue');
+    const completedLessons = document.getElementById('completedLessons');
+    const currentStreak = document.getElementById('currentStreak');
+    const totalPoints = document.getElementById('totalPoints');
+    const motivationalMessage = document.getElementById('motivationalMessage');
+    const motivationalText = document.getElementById('motivationalText');
+    const closeMessageBtn = document.getElementById('closeMessageBtn');
+    const storyHeader = document.getElementById('storyHeader');
+    const storyContent = document.getElementById('storyContent');
+    const conversationHeader = document.getElementById('conversationHeader');
+    const conversationContent = document.getElementById('conversationContent');
+    const exerciseHeader = document.getElementById('exerciseHeader');
+    const exerciseContent = document.getElementById('exerciseContent');
+
+    // API Endpoints
+    const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbzgTmcWAwLw8ZlA6cmSgkxv-KvQwSHwTLgL3cwD4l3RI8iHIOYacJPbGke76Fo0ETR8kA/exec';
+    const LOGIN_ENDPOINT = `${API_BASE_URL}?action=login`;
+    const CONTENT_ENDPOINT = `${API_BASE_URL}?action=getContent`;
+
+    // Motivational messages pool
+    const motivationalMessages = [
+        "Consistency is key! Even 15 minutes of study every day adds up to over 90 hours a year!",
+        "Did you know? Taking short breaks every 25-30 minutes can improve your focus and retention.",
+        "You're making progress every day, even when it doesn't feel like it. Keep going!",
+        "The expert in anything was once a beginner. Don't be afraid to make mistakes!",
+        "Try teaching what you've learned to someone else - it's one of the best ways to reinforce knowledge."
+    ];
+
+    // Helpers
+    function setRandomMotivationalMessage() {
+        const randomIndex = Math.floor(Math.random() * motivationalMessages.length);
+        motivationalText.textContent = motivationalMessages[randomIndex];
+    }
+
+    function showError(message) {
+        errorMessage.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+        errorMessage.classList.add('show');
+        setTimeout(() => {
+            errorMessage.classList.remove('show');
+        }, 5000);
+    }
+
+    function toggleSection(header, content) {
+        header.classList.toggle('active');
+        content.classList.toggle('show');
+    }
+
+    function groupBySubtitle(items) {
+        return items.reduce((groups, item) => {
+            const key = item.subtitle || 'undefined';
+            if (!groups[key]) groups[key] = [];
+            groups[key].push(item);
+            return groups;
+        }, {});
+    }
+
+    async function completeLesson(studentId, lessonTitle, lessonType) {
+        const response = await fetch(`${API_BASE_URL}?action=completeLesson`, {
+            method: 'POST',
+            body: new URLSearchParams({ studentId, lessonTitle, lessonType })
+        });
+        const data = await response.json();
+        await reloadStats(studentId);
+        if (data.success) {
+            alert('Lesson completed! You now have ' + data.points + ' points.');
+        } else {
+            alert('Error: ' + data.message);
+        }
+    }
+
+    async function reloadStats(studentId) {
+        try {
+            const statsResponse = await fetch(`${API_BASE_URL}?action=getStudentStats&studentId=${encodeURIComponent(studentId)}`);
+            const statsData = await statsResponse.json();
+            if (statsData.success) {
+                completedLessons.textContent = statsData.completedLessons;
+                currentStreak.textContent = `${statsData.currentStreak} days`;
+                totalPoints.textContent = statsData.totalPoints;
+                streakValue.textContent = statsData.currentStreak;
+                document.querySelector('.streak-ring-progress').style.setProperty('--streak-percent', Math.min(100, (statsData.currentStreak / 14) * 100));
+            }
+        } catch (err) {
+            // ignore errors
+        }
+    }
+
+    function populateSection(sectionElement, items, iconName) {
+        if (!items || items.length === 0) {
+            sectionElement.innerHTML = '<p style="text-align: center; padding: 20px;">No content available at this time.</p>';
+            return;
+        }
+        sectionElement.innerHTML = '';
+        const groupedItems = groupBySubtitle(items);
+        for (const [subtitle, groupItems] of Object.entries(groupedItems)) {
+            if (subtitle !== 'undefined') {
+                const subtitleElement = document.createElement('div');
+                subtitleElement.className = 'subtitle';
+                subtitleElement.innerHTML = `<i class="fas fa-${iconName}"></i> ${subtitle}`;
+                sectionElement.appendChild(subtitleElement);
+            }
+            groupItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'content-item';
+                const icon = document.createElement('div');
+                icon.className = 'item-icon';
+                icon.innerHTML = `<i class="fas fa-${iconName}"></i>`;
+                const link = document.createElement('a');
+                link.href = item.link || '#';
+                link.textContent = item.title;
+                link.target = '_blank';
+                link.addEventListener('click', async (e) => {
+                    if (item.link && item.link.trim() !== '') {
+                        e.preventDefault();
+                        if (!confirm("Are you ready to start this lesson?\nYou'll receive your point after you click OK.")) return;
+                        const studentId = userId.textContent.replace('ID: ', '').trim();
+                        const lessonTitle = item.title;
+                        const lessonType = iconName;
+                        let lessonUrl = item.link;
+                        if (lessonUrl && !/^https?:\/\//i.test(lessonUrl)) {
+                            lessonUrl = 'https://' + lessonUrl;
+                        }
+                        window.open(lessonUrl, '_blank');
+                        await completeLesson(studentId, lessonTitle, lessonType);
+                    } else {
+                        e.preventDefault();
+                        alert('This lesson is not available yet.');
+                    }
+                });
+                itemElement.appendChild(icon);
+                itemElement.appendChild(link);
+                if (item.isNew) {
+                    const badge = document.createElement('span');
+                    badge.className = 'item-badge';
+                    badge.textContent = 'NEW';
+                    itemElement.appendChild(badge);
+                }
+                sectionElement.appendChild(itemElement);
+            });
+        }
+    }
+
+    async function loadContent() {
+        storyContent.innerHTML = '<div class="spinner"></div>';
+        conversationContent.innerHTML = '<div class="spinner"></div>';
+        exerciseContent.innerHTML = '<div class="spinner"></div>';
+        try {
+            const response = await fetch(CONTENT_ENDPOINT);
+            const data = await response.json();
+            if (data.success && data.content) {
+                populateSection(storyContent, data.content.story, 'book');
+                populateSection(conversationContent, data.content.conversation, 'comments');
+                populateSection(exerciseContent, data.content.exercise, 'pencil-alt');
+            } else {
+                showError('Failed to load content. Please try again later.');
+            }
+        } catch (error) {
+            console.error('Content loading error:', error);
+            showError('Error loading content. Please refresh the page.');
+        }
+    }
+
+    // LOGIN EVENT
+    loginBtn.addEventListener('click', async () => {
+        const studentId = studentIdInput.value.trim();
+        const password = passwordInput.value.trim();
+        if (!studentId || !password) {
+            showError('Please enter both Student ID and Password');
+            return;
+        }
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<div class="spinner"></div>';
+        try {
+            const response = await fetch(`${LOGIN_ENDPOINT}&studentId=${encodeURIComponent(studentId)}&password=${encodeURIComponent(password)}`);
+            const data = await response.json();
+            if (data.success && data.user) {
+                loginContainer.style.display = 'none';
+                dashboard.style.display = 'block';
+                const name = data.user.Name || "Student";
+                userName.textContent = name;
+                userId.textContent = `ID: ${data.user.StudentID}`;
+                welcomeName.textContent = name;
+                userAvatar.textContent = name.split(' ').map(n => n[0]).join('').toUpperCase();
+                try {
+                    const statsResponse = await fetch(`${API_BASE_URL}?action=getStudentStats&studentId=${encodeURIComponent(data.user.StudentID)}`);
+                    const statsData = await statsResponse.json();
+                    if (statsData.success) {
+                        completedLessons.textContent = statsData.completedLessons;
+                        currentStreak.textContent = `${statsData.currentStreak} days`;
+                        totalPoints.textContent = statsData.totalPoints;
+                        streakValue.textContent = statsData.currentStreak;
+                        document.querySelector('.streak-ring-progress').style.setProperty('--streak-percent', Math.min(100, (statsData.currentStreak / 14) * 100));
+                    } else {
+                        completedLessons.textContent = 0;
+                        currentStreak.textContent = "0 days";
+                        totalPoints.textContent = 0;
+                        streakValue.textContent = 0;
+                    }
+                } catch (err) {
+                    completedLessons.textContent = 0;
+                    currentStreak.textContent = "0 days";
+                    totalPoints.textContent = 0;
+                    streakValue.textContent = 0;
+                }
+                if (String(data.user.Restriction).toUpperCase() === 'TRUE') {
+                    dashboardBlur.classList.add('show');
+                    restrictionMessage.textContent = data.user.RestrictionMessage || 'Your account has been restricted. Please contact support.';
+                    document.querySelector('.content-sections').style.display = 'none';
+                    document.querySelector('.daily-challenge').style.display = 'none';
+                    document.querySelector('.stats-container').style.display = 'none';
+                    welcomePopup.classList.remove('show');
+                } else {
+                    dashboardBlur.classList.remove('show');
+                    restrictionMessage.textContent = '';
+                    document.querySelector('.content-sections').style.display = 'grid';
+                    document.querySelector('.daily-challenge').style.display = 'block';
+                    document.querySelector('.stats-container').style.display = 'flex';
+                    welcomePopup.classList.add('show');
+                    await loadContent();
+                }
+            } else {
+                showError(data.message || 'Invalid Student ID or Password');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            showError('An error occurred. Please try again.');
+        } finally {
+            loginBtn.disabled = false;
+            loginBtn.textContent = 'Login';
+        }
+    });
+
+    // LOGOUT EVENT
+    logoutBtn.addEventListener('click', () => {
+        dashboard.style.display = 'none';
+        loginContainer.style.display = 'block';
+        studentIdInput.value = '';
+        passwordInput.value = '';
+        errorMessage.classList.remove('show');
+        [storyHeader, conversationHeader, exerciseHeader].forEach(header => header.classList.remove('active'));
+        [storyContent, conversationContent, exerciseContent].forEach(content => {
+            content.classList.remove('show');
+            content.innerHTML = '';
+        });
+        motivationalMessage.classList.remove('show');
+    });
+
+    // Close welcome popup
+    closeWelcomeBtn.addEventListener('click', () => {
+        welcomePopup.classList.remove('show');
+    });
+
+    // Toggle sections
+    storyHeader.addEventListener('click', () => toggleSection(storyHeader, storyContent));
+    conversationHeader.addEventListener('click', () => toggleSection(conversationHeader, conversationContent));
+    exerciseHeader.addEventListener('click', () => toggleSection(exerciseHeader, exerciseContent));
+
+    // Motivational message init
+    function init() {
+        setRandomMotivationalMessage();
+        setTimeout(() => motivationalMessage.classList.add('show'), 5000);
+        closeMessageBtn.addEventListener('click', () => motivationalMessage.classList.remove('show'));
+    }
+    init();
+</script>
+
+</body>
+</html>

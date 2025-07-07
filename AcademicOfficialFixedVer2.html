@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Lesson Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --text-color: #2b2d42;
+            --light-text: #f8f9fa;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            --section-bg: rgba(255, 255, 255, 0.85);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e2e9ff 100%);
+            min-height: 100vh;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        /* Sticky Header */
+        .portal-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .portal-header.scrolled {
+            padding: 15px 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .portal-header h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .portal-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Login Form */
+        .login-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            margin: 30px auto;
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0) 60%
+            );
+            transform: rotate(30deg);
+            pointer-events: none;
+        }
+
+        .login-container h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 12px;
+            background: var(--section-bg);
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            border-color: rgba(67, 97, 238, 0.3);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0) 60%
+            );
+            transform: rotate(30deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn:hover::after {
+            opacity: 1;
+            animation: shine 1.5s ease infinite;
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(30deg) translate(-50%, -50%); }
+            100% { transform: rotate(30deg) translate(50%, 50%); }
+        }
+
+        .error-message {
+            color: #ff4d4f;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            background: rgba(255, 77, 79, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .error-message.show {
+            opacity: 1;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            width: 100%;
+            position: relative;
+            padding-top: 20px;
+        }
+
+        .dashboard-blur {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 10;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .dashboard-blur.show {
+            display: flex;
+        }
+
+        .restriction-message {
+            background: linear-gradient(135deg, #ff4d4f 0%, #cc2e3d 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 80%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(204, 46, 61, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .user-info {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .user-info:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(31, 38, 135, 0.15);
+        }
+
+        .user-details h2 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 1.4rem;
+        }
+
+        .user-details p {
+            color: var(--text-color);
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            color: var(--primary-color);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Content Sections */
+        .content-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            padding-bottom: 40px;
+        }
+
+        .section {
+            background: var(--section-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 0;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+        }
+
+        .section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(31, 38, 135, 0.2);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            cursor: pointer;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(58, 12, 163, 0.05) 100%);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .section-header h3 {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 16px;
+            transition: all 0.3s ease;
+            color: var(--primary-color);
+        }
+
+        .section-header.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .section-content.show {
+            max-height: 1000px;
+        }
+
+        .content-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+
+        .content-item:last-child {
+            border-bottom: none;
+        }
+
+        .content-item:hover {
+            background: rgba(67, 97, 238, 0.05);
+        }
+
+        .content-item a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+
+        .content-item a::before {
+            content: '→';
+            color: var(--accent-color);
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .content-item a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        .content-item a:hover::before {
+            transform: translateX(5px);
+        }
+
+        /* Subtitle styling */
+        .subtitle {
+            font-weight: 500;
+            margin: 0;
+            padding: 15px 20px 10px;
+            color: var(--secondary-color);
+            font-size: 0.95rem;
+            border-left: 4px solid var(--accent-color);
+            background: rgba(76, 201, 240, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .subtitle i {
+            font-size: 0.9rem;
+        }
+
+        .khmer-label {
+    font-family: 'Noto Sans Khmer', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #5c5f72;
+    margin-left: 5px;
+}
+
+
+        /* Welcome Popup */
+        .welcome-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 20px;
+            padding: 40px 50px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+            text-align: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 1px solid var(--glass-border);
+            max-width: 90%;
+            width: 450px;
+        }
+
+        .welcome-popup.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .welcome-popup h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .welcome-popup p {
+            color: var(--text-color);
+            margin-bottom: 25px;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .welcome-popup .close-btn {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .welcome-popup .close-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 3px solid rgba(67, 97, 238, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid var(--primary-color);
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .portal-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .login-container {
+                padding: 30px;
+                max-width: 100%;
+            }
+            
+            .content-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-popup {
+                padding: 30px;
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .portal-header {
+                padding: 15px 0;
+            }
+            
+            .login-container {
+                padding: 25px 20px;
+                border-radius: 15px;
+            }
+            
+            .user-info {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .section-header {
+                padding: 15px;
+            }
+            
+            .content-item {
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Header -->
+    <div class="portal-header" id="portalHeader">
+        <div class="container">
+            <h1><i class="fas fa-book-open"></i> Classroom Library</h1>
+            <p>Your gateway to learning resources and academic materials</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Login Form -->
+        <div class="login-container fade-in" id="loginContainer">
+            <h1>Academic Portal</h1>
+            <div class="form-group">
+                <label for="studentId">Student ID</label>
+                <input type="text" id="studentId" placeholder="Enter your Student ID">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <button class="btn" id="loginBtn">Login</button>
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard" id="dashboard">
+            <div class="dashboard-blur" id="dashboardBlur">
+                <div class="restriction-message" id="restrictionMessage"></div>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-details">
+                    <h2 id="userName"></h2>
+                    <p id="userId"></p>
+                </div>
+                <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+
+            <div class="content-sections">
+                <div class="section">
+                    <div class="section-header" id="storyHeader">
+                        <h3><i class="fas fa-book"></i> Story <span class="khmer-label">| អំណានរឿង</span></h3>
+
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="section-content" id="storyContent"></div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header" id="conversationHeader">
+                        <h3><i class="fas fa-book"></i> Conversation <span class="khmer-label">| ការសន្ទនា</span></h3>
+
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="section-content" id="conversationContent"></div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header" id="exerciseHeader">
+                        <h3><i class="fas fa-book"></i> Exercise & Test <span class="khmer-label">| លំហាត់ & អនុវត្តន៍</span></h3>
+
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="section-content" id="exerciseContent"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Welcome Popup -->
+        <div class="welcome-popup" id="welcomePopup">
+            <h2>Welcome back, <span id="welcomeName"></span>!</h2>
+            <p>Ready to continue your learning journey?</p>
+            <button class="close-btn" id="closeWelcomeBtn">Let's Go</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const loginContainer = document.getElementById('loginContainer');
+        const dashboard = document.getElementById('dashboard');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const studentIdInput = document.getElementById('studentId');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('errorMessage');
+        const userName = document.getElementById('userName');
+        const userId = document.getElementById('userId');
+        const welcomePopup = document.getElementById('welcomePopup');
+        const welcomeName = document.getElementById('welcomeName');
+        const closeWelcomeBtn = document.getElementById('closeWelcomeBtn');
+        const dashboardBlur = document.getElementById('dashboardBlur');
+        const restrictionMessage = document.getElementById('restrictionMessage');
+        const portalHeader = document.getElementById('portalHeader');
+        
+        // Content sections
+        const storyHeader = document.getElementById('storyHeader');
+        const storyContent = document.getElementById('storyContent');
+        const conversationHeader = document.getElementById('conversationHeader');
+        const conversationContent = document.getElementById('conversationContent');
+        const exerciseHeader = document.getElementById('exerciseHeader');
+        const exerciseContent = document.getElementById('exerciseContent');
+
+        // API Endpoints - REPLACE THESE WITH YOUR ACTUAL ENDPOINTS
+        const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbzgTmcWAwLw8ZlA6cmSgkxv-KvQwSHwTLgL3cwD4l3RI8iHIOYacJPbGke76Fo0ETR8kA/exec';
+        const LOGIN_ENDPOINT = `${API_BASE_URL}?action=login`;
+        const CONTENT_ENDPOINT = `${API_BASE_URL}?action=getContent`;
+
+        // Sticky header effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                portalHeader.classList.add('scrolled');
+            } else {
+                portalHeader.classList.remove('scrolled');
+            }
+        });
+
+        // Toggle dropdowns
+        storyHeader.addEventListener('click', () => toggleSection(storyHeader, storyContent));
+        conversationHeader.addEventListener('click', () => toggleSection(conversationHeader, conversationContent));
+        exerciseHeader.addEventListener('click', () => toggleSection(exerciseHeader, exerciseContent));
+
+        function toggleSection(header, content) {
+            header.classList.toggle('active');
+            content.classList.toggle('show');
+        }
+
+        // Login function
+        loginBtn.addEventListener('click', async () => {
+            const studentId = studentIdInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!studentId || !password) {
+                showError('Please enter both Student ID and Password');
+                return;
+            }
+
+            // Show loading state
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<div class="spinner"></div>';
+
+            try {
+                // Call the login API endpoint
+                const response = await fetch(`${LOGIN_ENDPOINT}&studentId=${encodeURIComponent(studentId)}&password=${encodeURIComponent(password)}`);
+                const data = await response.json();
+                
+                if (data.success && data.user) {
+                    // Successful login
+                    loginContainer.style.display = 'none';
+                    dashboard.style.display = 'block';
+                    
+                    // Set user info
+                    userName.textContent = data.user.Name;
+                    userId.textContent = `ID: ${data.user.StudentID}`;
+                    welcomeName.textContent = data.user.Name;
+                    
+                    // Check for restrictions
+                    if (String(data.user.Restriction).toUpperCase() === 'TRUE') {
+                        // Block all content and hide the welcome popup
+                        dashboardBlur.classList.add('show');
+                        restrictionMessage.textContent = data.user.RestrictionMessage || 'Your account has been restricted. Please contact support.';
+                        document.querySelector('.content-sections').style.display = 'none'; // Hide all lesson cards
+                        welcomePopup.classList.remove('show');
+                    } else {
+                        dashboardBlur.classList.remove('show');
+                        restrictionMessage.textContent = '';
+                        document.querySelector('.content-sections').style.display = 'grid'; // Show content
+                        welcomePopup.classList.add('show');
+                        await loadContent();
+                    }
+
+                } else {
+                    showError(data.message || 'Invalid Student ID or Password');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showError('An error occurred. Please try again.');
+            } finally {
+                // Reset login button
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Login';
+            }
+        });
+
+        // Logout function
+        logoutBtn.addEventListener('click', () => {
+            dashboard.style.display = 'none';
+            loginContainer.style.display = 'block';
+            studentIdInput.value = '';
+            passwordInput.value = '';
+            errorMessage.classList.remove('show');
+            
+            // Reset all sections
+            [storyHeader, conversationHeader, exerciseHeader].forEach(header => {
+                header.classList.remove('active');
+            });
+            [storyContent, conversationContent, exerciseContent].forEach(content => {
+                content.classList.remove('show');
+                content.innerHTML = '';
+            });
+        });
+
+        // Close welcome popup
+        closeWelcomeBtn.addEventListener('click', () => {
+            welcomePopup.classList.remove('show');
+        });
+
+        // Show error message
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+            
+            // Hide error after 5 seconds
+            setTimeout(() => {
+                errorMessage.classList.remove('show');
+            }, 5000);
+        }
+
+        // Load content from API
+        async function loadContent() {
+            // Show loading state in content sections
+            storyContent.innerHTML = '<div class="spinner"></div>';
+            conversationContent.innerHTML = '<div class="spinner"></div>';
+            exerciseContent.innerHTML = '<div class="spinner"></div>';
+
+            try {
+                // Call the content API endpoint
+                const response = await fetch(CONTENT_ENDPOINT);
+                const data = await response.json();
+                
+                if (data.success && data.content) {
+                    // Populate content sections with data from API
+                    populateSection(storyContent, data.content.story);
+                    populateSection(conversationContent, data.content.conversation);
+                    populateSection(exerciseContent, data.content.exercise);
+                } else {
+                    showError('Failed to load content. Please try again later.');
+                }
+            } catch (error) {
+                console.error('Content loading error:', error);
+                showError('Error loading content. Please refresh the page.');
+            }
+        }
+
+        // Populate a section with content items
+        function populateSection(sectionElement, items) {
+            if (!items || items.length === 0) {
+                sectionElement.innerHTML = '<p style="padding: 20px; text-align: center; color: var(--text-color); opacity: 0.7;">No content available at this time.</p>';
+                return;
+            }
+
+            sectionElement.innerHTML = '';
+            
+            // Group items by subtitle if they have the property
+            const groupedItems = groupBySubtitle(items);
+            
+            for (const [subtitle, groupItems] of Object.entries(groupedItems)) {
+                if (subtitle !== 'undefined') {
+                    const subtitleElement = document.createElement('div');
+                    subtitleElement.className = 'subtitle';
+                    subtitleElement.innerHTML = `<i class="fas fa-folder-open"></i> ${subtitle}`;
+                    sectionElement.appendChild(subtitleElement);
+                }
+                
+                groupItems.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'content-item';
+                    
+                    const link = document.createElement('a');
+                    link.href = item.link || '#';
+                    if (item.link) {
+                        link.target = '_blank';
+                    }
+                    link.textContent = item.title;
+                    
+                    itemElement.appendChild(link);
+                    sectionElement.appendChild(itemElement);
+                });
+            }
+        }
+
+        // Helper function to group items by subtitle
+        function groupBySubtitle(items) {
+            return items.reduce((groups, item) => {
+                const key = item.subtitle || 'undefined';
+                if (!groups[key]) {
+                    groups[key] = [];
+                }
+                groups[key].push(item);
+                return groups;
+            }, {});
+        }
+    </script>
+</body>
+</html>
